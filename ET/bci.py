@@ -190,11 +190,11 @@ class QEqBCI_smooth_A(QEq):
 
         # Build matrices for QEq BCI
         J = torch.diag(jii)                    # (N, N)
-        K = A.T @ J @ A                        # (M, M)
+        K = A_smooth.T @ J @ A_smooth          # (M, M)
         rhs = - A.T @ (chi + J @ F)            # (M,)
 
         # Solve 
         b = torch.linalg.pinv(K) @ rhs         # (M,)
-        pred_charges = F + A @ b               # (N,)
+        pred_charges = F + A_smooth @ b        # (N,)
 
         return pred_charges, coordinates.new_zeros(species.shape)
